@@ -11,7 +11,7 @@ import {
 @Entity()
 export class File {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  fileId: number;
 
   @CreateDateColumn({ nullable: true, unique: false })
   createdAt: Date;
@@ -27,4 +27,7 @@ export class File {
 
   @Column({nullable: false, default: false})
   isValidated: boolean;
+
+  @Column({nullable: true})
+  fileDataJSON: string;
 }

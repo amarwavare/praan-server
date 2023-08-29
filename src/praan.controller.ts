@@ -1,10 +1,10 @@
-import { Controller, Get, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, UseInterceptors, UploadedFile, Body } from '@nestjs/common';
 import { PraanService } from './praan.service';
 import { Logger } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CommonResponseDto } from './praan.dto';
+import { CommonResponseDto, ProcessFileDto } from './praan.dto';
 
-@Controller()
+@Controller('praan')
 export class PraanController {
   constructor(
     private readonly praanService: PraanService,
@@ -23,5 +23,17 @@ export class PraanController {
     @UploadedFile() file: Express.Multer.File
   ): Promise<CommonResponseDto> {
     return this.praanService.uploadFile(file); 
+  }
+
+  @Get('list/pendingFiles')
+  fetchPendingFiles(): Promise<CommonResponseDto> {
+    return this.praanService.fetchPendingFiles();
+  }
+
+  @Post('process/file')
+  processFile(
+    @Body() payload: ProcessFileDto,
+  ): Promise<CommonResponseDto> {
+    return this.praanService.processFile(payload.fileId);
   }
 }
