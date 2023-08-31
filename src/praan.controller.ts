@@ -2,7 +2,7 @@ import { Controller, Get, Post, UseInterceptors, UploadedFile, Body } from '@nes
 import { PraanService } from './praan.service';
 import { Logger } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CommonResponseDto, ProcessFileDto } from './praan.dto';
+import { CommonResponseDto, FetchFileVisualDataDto, ProcessFileDto } from './praan.dto';
 
 @Controller('praan')
 export class PraanController {
@@ -30,10 +30,22 @@ export class PraanController {
     return this.praanService.fetchPendingFiles();
   }
 
+  @Get('fetchProcessedFilesMetadata')
+  fetchProcessedFilesMetadata(): Promise<CommonResponseDto> {
+    return this.praanService.fetchProcessedFilesMetadata();
+  }
+
   @Post('process/file')
   processFile(
     @Body() payload: ProcessFileDto,
   ): Promise<CommonResponseDto> {
     return this.praanService.processFile(payload.fileId);
+  }
+
+  @Post('fetchFileVisualData')
+  fetchFileVisualData(
+    @Body() payload: FetchFileVisualDataDto,
+  ):Promise<CommonResponseDto> {
+    return this.praanService.fetchFileVisualData(payload.fileId);
   }
 }

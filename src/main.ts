@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { PraanModule } from './praan.module';
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { urlencoded, json } from 'express';
 
 async function bootstrap() {
   let logger = new Logger();
@@ -20,6 +21,8 @@ async function bootstrap() {
     exposedHeaders: ['Content-Range', 'X-Content-Range'],
     optionsSuccessStatus: 204
   });
+  app.use(json({limit: '50mb'}));
+  app.use(urlencoded({extended: true, limit: '50mb'}));
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
   .setTitle('Praan App')

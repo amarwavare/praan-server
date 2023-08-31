@@ -13,7 +13,10 @@ class ProcessFileDto {
     fileId: number;
 }
 
+class FetchFileVisualDataDto extends ProcessFileDto {}
+
 export {
     CommonResponseDto,
     ProcessFileDto,
+    FetchFileVisualDataDto,
 }
